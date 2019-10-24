@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Swagger使用技巧 | 春花秋月何时了</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如何使用swagger在需要使用swagger的controller类里面添加注解@Api,如下： 1234567891011121314151617181920@RestController@Api(value = &amp;quot;UserController&amp;quot;)public class UserController extends BaseController  &amp;#123;    @A">
+<meta name="keywords" content="springboot,swagger">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swagger使用技巧">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;02&#x2F;01&#x2F;swaggerskill&#x2F;index.html">
+<meta property="og:site_name" content="春花秋月何时了">
+<meta property="og:description" content="如何使用swagger在需要使用swagger的controller类里面添加注解@Api,如下： 1234567891011121314151617181920@RestController@Api(value = &amp;quot;UserController&amp;quot;)public class UserController extends BaseController  &amp;#123;    @A">
+<meta property="og:locale" content="ch">
+<meta property="og:updated_time" content="2019-02-01T02:02:15.876Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="春花秋月何时了" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">春花秋月何时了</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-swaggerskill" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/02/01/swaggerskill/" class="article-date">
+  <time datetime="2019-02-01T01:48:45.276Z" itemprop="datePublished">2019-02-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swagger使用技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="如何使用swagger"><a href="#如何使用swagger" class="headerlink" title="如何使用swagger"></a>如何使用swagger</h2><p>在需要使用swagger的controller类里面添加注解<code>@Api</code>,如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@Api(value = &quot;UserController&quot;)</span><br><span class="line">public class UserController extends BaseController  &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private IUserService userService;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value=&quot;获取用户列表&quot;, notes=&quot;获取用户列表&quot;)</span><br><span class="line">    @GetMapping(value = &quot;user/findList&quot;)</span><br><span class="line">    public Object findList ()&#123;</span><br><span class="line">        JsonResult jsonResult = new JsonResult();</span><br><span class="line">        try &#123;</span><br><span class="line">            jsonResult.setResults(userService.findList());</span><br><span class="line">            this.successFormat(jsonResult,&quot;用户列表&quot;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            this.errorFormat(e,jsonResult);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return jsonResult;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="swagger参数配置"><a href="#swagger参数配置" class="headerlink" title="swagger参数配置"></a>swagger参数配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> @ApiOperation(value=&quot;新增用户信息&quot;, notes=&quot;新增用户信息&quot;)</span><br><span class="line">@ApiImplicitParams(&#123;</span><br><span class="line">        @ApiImplicitParam(name = &quot;name&quot;,paramType = &quot;query&quot;,value = &quot;用户名&quot;, dataType = &quot;String&quot;),</span><br><span class="line">        @ApiImplicitParam(name = &quot;age&quot;,paramType = &quot;query&quot;, value = &quot;年龄&quot;,  dataType = &quot;int&quot;),</span><br><span class="line">        @ApiImplicitParam(name = &quot;sex&quot;,paramType = &quot;query&quot;,value = &quot;性别&quot;, dataType = &quot;String&quot;)&#125;)</span><br><span class="line">@PostMapping(value = &quot;user/saveUser&quot;)</span><br><span class="line">public Object saveUser (@RequestParam String name, @RequestParam int age,@RequestParam String sex)&#123;</span><br><span class="line">    JsonResult jsonResult = new JsonResult();</span><br><span class="line">    try &#123;</span><br><span class="line">        UserInfo userInfo = new UserInfo();</span><br><span class="line">        userInfo.setGuid(UUID.randomUUID().toString());</span><br><span class="line">        userInfo.setName(name);</span><br><span class="line">        userInfo.setAge(age);</span><br><span class="line">        userInfo.setSex(sex);</span><br><span class="line">        userService.saveUser(userInfo);</span><br><span class="line">        jsonResult.setResults(userInfo.getGuid());</span><br><span class="line">        this.successFormat(jsonResult,&quot;新增用户信息成功&quot;);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        this.errorFormat(e,jsonResult);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    return jsonResult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="swagger注解"><a href="#swagger注解" class="headerlink" title="swagger注解"></a>swagger注解</h2><p><code>@ApiOperation</code> 应用在方法上，方法说明</p>
+<p><code>@ApiImplicitParams</code> 多个参数，应用在方法上</p>
+<p><code>@ApiImplicitParam</code>  单个参数，应用在方法上，参数说明</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/02/01/swaggerskill/" data-id="ck24jjp17000ddoovdwqidksf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swagger/" rel="tag">swagger</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/01/swaggerstart/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swagger环境搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/15/springboot+druid+mysql/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">springboot使用druid整合mysql</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/druid/" rel="tag">druid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/" rel="tag">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swagger/" rel="tag">swagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90/" rel="tag">双数据源</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/druid/" style="font-size: 10px;">druid</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/swagger/" style="font-size: 15px;">swagger</a> <a href="/tags/%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90/" style="font-size: 10px;">双数据源</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/02/01/swaggerstart/">Swagger环境搭建</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/01/swaggerskill/">Swagger使用技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/15/springboot+druid+mysql/">springboot使用druid整合mysql</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/11/springboot%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90%E9%85%8D%E7%BD%AE/">springboot 双数据源配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 小春花<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
